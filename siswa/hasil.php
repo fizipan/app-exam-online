@@ -174,9 +174,9 @@ include "../koneksi.php"; ?>
 																							$jawaban=$pilihan[$nomor];
 
 																							//cocokan jawaban user dengan jawaban di database
-																							$query=mysql_query("select * from soal where id_soal='$nomor' and jawaban='$jawaban'");
+																							$query=mysqli_query($conn, "select * from soal where id_soal='$nomor' and jawaban='$jawaban'");
 
-																							$cek=mysql_num_rows($query);
+																							$cek=mysqli_num_rows($query);
 
 																							if($cek){
 																								//jika jawaban cocok (benar)
@@ -192,33 +192,33 @@ include "../koneksi.php"; ?>
 																								hasil= 100 / jumlah soal * jawaban yang benar
 																								*/
 
-																								$result=mysql_query("select * from soal where id_mapel='". $_POST['id_mapel'] ."' and tingkat_kelas='". $_SESSION['tingkat_kelas'] ."' and status='DISETUJUI'");
-																								$jumlah_soal=mysql_num_rows($result);
+																								$result=mysqli_query($conn, "select * from soal where id_mapel='". $_POST['id_mapel'] ."' and tingkat_kelas='". $_SESSION['tingkat_kelas'] ."' and status='DISETUJUI'");
+																								$jumlah_soal=mysqli_num_rows($result);
 																								$score = 100/$jumlah_soal*$benar;
 																								$hasil = number_format($score,1);
 																							}
 
 																							//Lakukan Pengecekan  Data  dalam Database
-																						   $cek=mysql_num_rows(mysql_query("select id_siswa from nilai where id_siswa='$_SESSION[id_siswa]'"));
+																						   $cek=mysqli_num_rows(mysqli_query($conn, "select id_siswa from nilai where id_siswa='$_SESSION[id_siswa]'"));
 																							//Pemberian kondisi lulus/ tidak lulus
 
 																							$id_siswa= ucwords($_SESSION['id_siswa']);
 
 																							if($hasil>=60){
 																							$input  		= "insert into nilai (id_siswa,benar,salah,kosong,skor_nilai,tanggal_ujian,status,keterangan,id_mapel) Values ('$id_siswa','$benar','$salah','$kosong','$hasil',NOW(),'DIREVIEW','LULUS','". $_POST['id_mapel'] ."')";
-																							$query_input 	= mysql_query($input);
+																							$query_input 	= mysqli_query($conn, $input);
 																								if($query_input) {
 																									$sukses = "<div class='alert alert-success alert-dismissible' align='center'><h3><i class='icon fa fa-check'></i> ANDA TELAH BERHASIL MELAKUKAN UJIAN !</h3><h4>MOHON MENUNGGU HASIL UJIAN ANDA DIVALIDASI SEBELUM DAPAT DITAMPILKAN</h4></div>";
 																									} else {
-																									$gagal 	= "<div class='callout callout-danger'> <strong>Oh snap! Catat Data Ujian  GAGAL ! Mohon periksa kembali</strong></div><br>".mysql_error();
+																									$gagal 	= "<div class='callout callout-danger'> <strong>Oh snap! Catat Data Ujian  GAGAL ! Mohon periksa kembali</strong></div><br>".mysqli_error();
 																								}
 																							} else {
 																							$input  		= "insert into nilai (id_siswa,benar,salah,kosong,skor_nilai,tanggal_ujian,status,keterangan,id_mapel) Values ('$id_siswa','$benar','$salah','$kosong','$hasil',NOW(),'DIREVIEW','TIDAK LULUS','". $_POST['id_mapel'] ."')";
-																							$query_input 	= mysql_query($input);
+																							$query_input 	= mysqli_query($conn, $input);
 																								if($query_input) {
 																									$sukses = "<div class='alert alert-success alert-dismissible' align='center'><h3><i class='icon fa fa-check'></i> ANDA TELAH BERHASIL MELAKUKAN UJIAN !</h3><h4>MOHON MENUNGGU HASIL UJIAN ANDA DIVALIDASI SEBELUM DAPAT DITAMPILKAN</h4></div>";
 																									} else {
-																									$gagal 	= "<div class='callout callout-danger'> <strong>Oh snap! Catat Data Ujian  GAGAL ! Mohon periksa kembali</strong></div><br>".mysql_error();
+																									$gagal 	= "<div class='callout callout-danger'> <strong>Oh snap! Catat Data Ujian  GAGAL ! Mohon periksa kembali</strong></div><br>".mysqli_error();
 																								}
 																							}
 
