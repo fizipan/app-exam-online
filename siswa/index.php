@@ -141,7 +141,7 @@ include "../koneksi.php"; ?>
 						</div>
 						<div class="page-header">
 							<div class="page-leftheader">
-								<h4 class="page-title mb-0">Hai <?php echo $_SESSION['nama_siswa'] ?> ! Selamat Datang Kembali</h4>
+								<h4 class="page-title mb-0">Hai <?php echo $dataSiswa['nama_siswa'] ?> ! Selamat Datang Kembali</h4>
 							</div>
 							<div class="page-rightheader">
 							</div>
